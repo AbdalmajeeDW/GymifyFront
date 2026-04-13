@@ -570,14 +570,14 @@ export default function AddProductPage() {
                         value={form.specifications.material ?? ""}
                         onChange={handleChange}
                       />
-                      <FormInput
+                      {/* <FormInput
                         label="Dimensions"
                         type="text"
                         name="specifications.dimensions"
                         icon={<Ruler />}
-                        value={form.specifications.dimensions ?? ""}
+                        value={form.specifications. ?? ""}
                         onChange={handleChange}
-                      />
+                      /> */}
                     </>
                   )}
                 </div>
