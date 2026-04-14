@@ -35,7 +35,7 @@ export const useAuth = () => {
 
     try {
       const response = await fetch(
-        "https://gymifyback.onrender.com/auth/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         {
           method: "POST",
           headers: {
