@@ -50,7 +50,7 @@ export default function UsersPage() {
     if (Array.isArray(userData)) {
       setUsers(userData);
       const filtered = userData.filter(
-        (user) => user.player?.playerData?.membershipType === "premium",
+        (user) => user.playerData?.membershipType === "premium",
       );
       setPremium(filtered);
     }
@@ -62,18 +62,18 @@ export default function UsersPage() {
     if (search) {
       filtered = filtered.filter(
         (user) =>
-          `${user.player.firstName} ${user.player.lastName}`
+          `${user.firstName} ${user.lastName}`
             .toLowerCase()
             .includes(search.toLowerCase()) ||
-          user.player.email.toLowerCase().includes(search.toLowerCase()) ||
-          user.player.phone?.includes(search),
+          user.email.toLowerCase().includes(search.toLowerCase()) ||
+          user.phone?.includes(search),
       );
     }
 
     if (filterType !== "all") {
       filtered = filtered.filter(
         (user) =>
-          user?.player.playerData?.membershipType?.toLowerCase() ===
+          user?.playerData?.membershipType?.toLowerCase() ===
           filterType.toLowerCase(),
       );
     }
@@ -102,8 +102,8 @@ export default function UsersPage() {
       title: { text: "New Signups" },
       value: {
         text: users.filter((u) => {
-          if (!u.player?.createdAt) return false;
-          const createdAt = new Date(u.player.createdAt);
+          if (!u?.createdAt) return false;
+          const createdAt = new Date(u.createdAt);
           const now = new Date();
           const diffTime = Math.abs(now.getTime() - createdAt.getTime());
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

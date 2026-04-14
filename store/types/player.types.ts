@@ -14,10 +14,9 @@ export interface playerProfile {
   updatedAt?: Date;
 }
 
-export interface Player {
-  player: User;
-}
-
+export type Player = User & {
+  playerData: playerProfile;
+};
 export interface playerState {
   players: Player[];
   status: statusRequest;

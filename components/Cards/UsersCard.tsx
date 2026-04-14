@@ -6,14 +6,10 @@ import { motion } from "framer-motion";
 import {
   Calendar,
   Crown,
-  Mail,
   Star,
   TrendingUp,
-  Award,
   User,
   Briefcase,
-  DollarSign,
-  Phone,
 } from "lucide-react";
 import { Player } from "@/store/types/player.types";
 import { Trainer } from "@/store/types/trainer.types";
@@ -172,7 +168,7 @@ export default function SharedCard({
                 <span>{badgeText}</span>
               </div>
 
-              <div className="relative p-4 sm:p-5 md:p-6 flex flex-col flex-grow">
+              <div className="relative p-4 sm:p-5 md:p-6 flex flex-col ">
                 <div className="flex justify-center mb-4">
                   <div
                     className={`relative w-24 h-24 sm:w-28 sm:h-28 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full bg-linear-to-r ${badgeColor} flex items-center justify-center shadow-xl ${imageShadow} transition-all duration-300 group-hover:scale-105`}
@@ -205,16 +201,16 @@ export default function SharedCard({
                   </span>
                 </div>
 
-                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 flex-grow">
+                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 ">
                   <div className="flex justify-between items-center text-xs sm:text-sm py-1 border-b border-gray-100">
                     <span className="text-gray-500 flex items-center gap-1 sm:gap-1.5">
                       <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                       {isPlayer ? "Age:" : "Specialization:"}
                     </span>
                     <span className="font-semibold text-gray-700 truncate ml-2">
-                      {isPlayer
+                      {/* {isPlayer
                         ? `${user.playerData?.year || 0} years`
-                        : user.trainer?.specialization || "N/A"}
+                        : user.trainer?.specialization || "N/A"} */}
                     </span>
                   </div>
 
@@ -224,9 +220,9 @@ export default function SharedCard({
                       {isPlayer ? "Height/Weight:" : "Experience:"}
                     </span>
                     <span className="font-semibold text-gray-700">
-                      {isPlayer
+                      {/* {isPlayer
                         ? `${user.playerData?.height || 0}cm / ${user.playerData?.weight || 0}kg`
-                        : `${user.trainer?.experienceYears || 0} years`}
+                        : `${user.trainer?.experienceYears || 0} years`} */}
                     </span>
                   </div>
 

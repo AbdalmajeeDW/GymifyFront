@@ -16,7 +16,6 @@ export interface User {
   createdAt?: Date;
   role: UserRole;
   playerData: playerProfile;
-  trainerData?: TrainerProfile;
 }
 export interface UserState {
   users: User[];

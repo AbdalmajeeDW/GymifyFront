@@ -508,14 +508,13 @@ export default function AddPlayersPage() {
                     <SelectContent>
                       {trainers.map((trainer) => (
                         <SelectItem
-                          key={trainer.trainer.id}
-                          value={trainer.trainer?.id?.toString() ?? ""}
+                          key={trainer.trainerData?.id}
+                          value={trainer.trainerData?.id?.toString() ?? ""}
                         >
                           <span className="flex items-center gap-2">
                             <Briefcase className="w-4 h-4 text-purple-500" />
                             {trainer?.firstName} {trainer.lastName}-{" "}
-                            {trainer.trainer?.trainerData?.specialization ||
-                              "Trainer"}
+                            {trainer.trainerData?.specialization || "Trainer"}
                           </span>
                         </SelectItem>
                       ))}
@@ -557,14 +556,13 @@ export default function AddPlayersPage() {
                     <SelectContent>
                       {trainers.map((trainer) => (
                         <SelectItem
-                          key={trainer.trainer.id}
-                          value={trainer.trainer?.id?.toString() ?? ""}
+                          key={trainer.trainerData?.id}
+                          value={trainer.trainerData?.id?.toString() ?? ""}
                         >
                           <span className="flex items-center gap-2">
                             <Briefcase className="w-4 h-4 text-purple-500" />
                             {trainer?.firstName} {trainer.lastName}-{" "}
-                            {trainer.trainer?.trainerData?.specialization ||
-                              "Trainer"}
+                            {trainer.trainerData?.specialization || "Trainer"}
                           </span>
                         </SelectItem>
                       ))}

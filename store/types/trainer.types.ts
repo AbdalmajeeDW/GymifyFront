@@ -15,9 +15,9 @@ export interface TrainerProfile {
   createdAt?: Date;
 }
 
-export interface Trainer {
-  trainers: User;
-}
+export type Trainer = User & {
+  trainerData?: TrainerProfile;
+};
 
 export interface TrainerState {
   trainers: Trainer[];

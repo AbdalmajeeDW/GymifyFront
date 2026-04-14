@@ -123,7 +123,7 @@ const userSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.players = state.players.filter(
-          (player) => player.player.id !== action.meta.arg,
+          (player) => player.playerData.id !== action.meta.arg,
         );
         console.log(state.players);
         state.statusFetchUser = statusRequest.SUCCEEDED;
