@@ -37,8 +37,8 @@ export default function LoginPage() {
               يرجى تسجيل الدخول للوصول إلى هذه الصفحة
             </div>
           )}
-
           <LoginForm />
+          test
         </div>
       </Suspense>
     </div>
