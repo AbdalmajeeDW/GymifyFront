@@ -1,15 +1,20 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoginForm from "@/components/LoginForm";
 import { useAuth } from "@/hooks/useAuth";
-import { useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+export default function LoginClient() {
   const { isAuthenticated, isLoading } = useAuth();
 
-  const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl");
+  const [returnUrl, setReturnUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setReturnUrl(params.get("returnUrl"));
+    }
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated() && !isLoading) {
@@ -20,27 +25,20 @@ export default function LoginPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">جاري التحميل...</p>
-        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
       </div>
     );
   }
 
   return (
     <div className="bg-gray-50">
-      <Suspense fallback={<div>Loading...</div>}>
-        <div>
-          {returnUrl && (
-            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 rounded p-3">
-              يرجى تسجيل الدخول للوصول إلى هذه الصفحة
-            </div>
-          )}
-          <LoginForm />
-          test
+      {returnUrl && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 p-2">
+          يرجى تسجيل الدخول للوصول إلى هذه الصفحة
         </div>
-      </Suspense>
+      )}
+
+      <LoginForm />
     </div>
   );
 }
