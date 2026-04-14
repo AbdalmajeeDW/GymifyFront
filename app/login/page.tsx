@@ -3,19 +3,20 @@
 import { useEffect } from "react";
 import LoginForm from "@/components/LoginForm";
 import { useAuth } from "@/hooks/useAuth";
-import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const { isAuthenticated, isLoading } = useAuth();
-  const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("/");
+
+  const returnUrl =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("returnUrl")
+      : null;
 
   useEffect(() => {
-    let token = localStorage.getItem("auth-token");
     if (isAuthenticated() && !isLoading) {
       window.location.href = "/";
     }
-  }, [isAuthenticated, isLoading, returnUrl]);
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading) {
     return (
@@ -29,13 +30,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="   bg-gray-50">
-      <div className="">
+    <div className="bg-gray-50">
+      <div>
         {returnUrl && (
-          <div className=" bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+          <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 rounded p-3">
             يرجى تسجيل الدخول للوصول إلى هذه الصفحة
           </div>
         )}
+
         <LoginForm />
       </div>
     </div>

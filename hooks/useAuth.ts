@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     checkAuth();
@@ -20,7 +20,6 @@ export const useAuth = () => {
 
     if (savedToken && savedUser) {
       setToken(savedToken);
-
       setUser(JSON.parse(savedUser));
 
       if (window.location.pathname === "/login") {
@@ -33,6 +32,7 @@ export const useAuth = () => {
 
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
+
     try {
       const response = await fetch(
         "https://gymifyback.onrender.com/auth/login",
