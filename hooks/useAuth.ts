@@ -1,13 +1,10 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -30,7 +27,7 @@ export const useAuth = () => {
     setIsLoading(false);
   };
 
-  const login = async (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string) => {
     setIsLoading(true);
 
     try {
@@ -38,16 +35,12 @@ export const useAuth = () => {
         "https://gymifyback.onrender.com/auth/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         },
       );
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
+      if (!response.ok) throw new Error("Login failed");
 
       const data = await response.json();
 
@@ -70,17 +63,16 @@ export const useAuth = () => {
     }
   };
 
-  const logout = (): void => {
-    setToken(null);
-    setUser(null);
+  const logout = () => {
     localStorage.removeItem("auth-token");
     localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+
     router.push("/login");
   };
 
-  const isAuthenticated = (): boolean => {
-    return !!token;
-  };
+  const isAuthenticated = () => !!token;
 
   return {
     user,

@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import LoginForm from "@/components/LoginForm";
 import { useAuth } from "@/hooks/useAuth";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const { isAuthenticated, isLoading } = useAuth();
 
-  const returnUrl =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("returnUrl")
-      : null;
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl");
 
   useEffect(() => {
     if (isAuthenticated() && !isLoading) {
@@ -31,15 +30,17 @@ export default function LoginPage() {
 
   return (
     <div className="bg-gray-50">
-      <div>
-        {returnUrl && (
-          <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 rounded p-3">
-            يرجى تسجيل الدخول للوصول إلى هذه الصفحة
-          </div>
-        )}
+      <Suspense fallback={<div>Loading...</div>}>
+        <div>
+          {returnUrl && (
+            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 rounded p-3">
+              يرجى تسجيل الدخول للوصول إلى هذه الصفحة
+            </div>
+          )}
 
-        <LoginForm />
-      </div>
+          <LoginForm />
+        </div>
+      </Suspense>
     </div>
   );
 }
