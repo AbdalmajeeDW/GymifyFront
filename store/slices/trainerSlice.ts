@@ -150,12 +150,14 @@ const trainerSlice = createSlice({
       })
       .addCase(updateTrainer.fulfilled, (state, action) => {
         const index = state.trainers.findIndex(
-          (trainer) => trainer.trainers.id === action.payload.trainers.id,
+          (trainer) => trainer.trainerData.id === action.payload.trainerData.id,
         );
         if (index !== -1) {
           state.trainers[index] = action.payload;
         }
-        if (state.currentTrainer?.trainers.id === action.payload.trainers.id) {
+        if (
+          state.currentTrainer?.trainerData.id === action.payload.trainerData.id
+        ) {
           state.currentTrainer = action.payload;
         }
         state.status = statusRequest.SUCCEEDED;
@@ -170,7 +172,7 @@ const trainerSlice = createSlice({
       })
       .addCase(deleteTrainer.fulfilled, (state, action) => {
         state.trainers = state.trainers.filter(
-          (trainer) => trainer.trainers.id !== action.payload,
+          (trainer) => trainer.trainerData.id !== action.payload,
         );
         state.status = statusRequest.SUCCEEDED;
       })
