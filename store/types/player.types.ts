@@ -1,5 +1,5 @@
 import { MembershipType, statusRequest, UserRole } from "@/common/enums";
-import { User } from "./user.types";
+import { AppUser, User } from "./user.types";
 
 export interface playerProfile {
   id?: number;
@@ -15,8 +15,14 @@ export interface playerProfile {
 }
 
 export type Player = User & {
+  // type: "player";
   playerData: playerProfile;
 };
+
+export function isPlayer(user: AppUser): user is Player {
+  return "playerData" in user;
+}
+
 export interface playerState {
   players: Player[];
   status: statusRequest;

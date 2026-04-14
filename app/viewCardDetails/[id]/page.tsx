@@ -19,12 +19,16 @@ import {
   Crown,
   TrendingUp,
 } from "lucide-react";
+import type { AppUser } from "@/store/types/user.types";
+import { isPlayer } from "@/store/types/player.types";
 
 export default function Page() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectedUser);
 
+  const player = user && isPlayer(user) ? user : null;
+  const trainer = user && !isPlayer(user) ? user : null;
   useEffect(() => {
     if (id) dispatch(fetchUser(id));
   }, [dispatch]);
@@ -53,7 +57,7 @@ export default function Page() {
 
   const membershipColor =
     membershipColors[
-      user.playerData?.membershipType?.toLowerCase() as keyof typeof membershipColors
+      player?.playerData?.membershipType?.toLowerCase() as keyof typeof membershipColors
     ] || "bg-gradient-to-r from-purple-400 to-purple-500";
 
   return (
@@ -84,7 +88,7 @@ export default function Page() {
               <div
                 className={`absolute -bottom-2 -right-2 ${membershipColor} text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg`}
               >
-                {user.playerData?.membershipType}
+                {player && player?.playerData.membershipType}
               </div>
             </div>
 
@@ -146,32 +150,31 @@ export default function Page() {
           {[
             {
               icon: Crown,
-              label: user?.playerData ? "Membership" : "Current clients",
-              value: user?.playerData
-                ? user.playerData.membershipType
-                : user.trainerData?.currentClients,
+              label: player ? "Membership" : "Current clients",
+              value: player?.playerData.membershipType,
+
               color: "from-yellow-400 to-amber-500",
             },
             {
               icon: Calendar,
               label: "Age",
-              value: user.playerData?.year,
+              value: player?.playerData?.year,
               suffix: " years",
               color: "from-blue-400 to-blue-500",
             },
             {
-              icon: user?.playerData ? Ruler : Sparkles,
-              label: user?.playerData ? "Height" : "Experience years",
-              value: user?.playerData
-                ? user.playerData.height
-                : user.trainerData?.experienceYears,
-              suffix: user?.playerData && " cm",
+              icon: player?.playerData ? Ruler : Sparkles,
+              label: player?.playerData ? "Height" : "Experience years",
+
+              value: player?.playerData.height,
+
+              suffix: " cm",
               color: "from-green-400 to-emerald-500",
             },
             {
               icon: Weight,
               label: "Weight",
-              value: user.playerData?.weight,
+              value: player ? (player?.playerData?.weight ?? "N/A") : "N/A",
               suffix: " kg",
               color: "from-orange-400 to-red-500",
             },

@@ -1,6 +1,6 @@
 import { statusRequest, UserRole } from "@/common/enums";
-import { playerProfile } from "./player.types";
-import { TrainerProfile } from "./trainer.types";
+import { Player, playerProfile } from "./player.types";
+import { Trainer, TrainerProfile } from "./trainer.types";
 
 export interface User {
   id?: number;
@@ -12,15 +12,16 @@ export interface User {
   email: string;
   updatedAt?: Date;
   isActive?: boolean;
-
+  // type: "player" | "trainer";
   createdAt?: Date;
   role: UserRole;
-  playerData: playerProfile;
 }
+export type AppUser = Player | Trainer;
+
 export interface UserState {
   users: User[];
   status: statusRequest;
-  currentUser: User | null;
+  currentUser: AppUser | null;
   statusAddUser: statusRequest;
   statusFetchUser: statusRequest;
   titlePage: {

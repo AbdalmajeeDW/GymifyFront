@@ -1,7 +1,7 @@
 // src/store/types/trainer.types.ts
 
 import { statusRequest } from "@/common/enums";
-import { User } from "../types/user.types";
+import { AppUser, User } from "../types/user.types";
 export interface TrainerProfile {
   specialization?: string;
   experienceYears?: number;
@@ -16,8 +16,14 @@ export interface TrainerProfile {
 }
 
 export type Trainer = User & {
-  trainerData?: TrainerProfile;
+  // type: "trainer";
+
+  trainerData: TrainerProfile;
 };
+
+export function isPlayer(user: AppUser): user is Trainer {
+  return "trainerData" in user;
+}
 
 export interface TrainerState {
   trainers: Trainer[];

@@ -21,7 +21,8 @@ const nextConfig = {
       },
     ];
   },
-  serverExternalPackages: ["your-package"],
+
+  serverExternalPackages: ["face-api.js"],
 };
 
 module.exports = nextConfig;

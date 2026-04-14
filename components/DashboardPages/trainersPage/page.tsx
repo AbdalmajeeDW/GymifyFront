@@ -67,8 +67,8 @@ export default function TrainersPage() {
   const specializations = useMemo(() => {
     const specs = new Set<string>();
     trainers.forEach((trainer) => {
-      if (trainer.trainer?.specialization) {
-        specs.add(trainer.trainer.specialization);
+      if (trainer.trainerData?.specialization) {
+        specs.add(trainer.trainerData.specialization);
       }
     });
     return ["all", ...Array.from(specs)];
@@ -87,7 +87,7 @@ export default function TrainersPage() {
             .includes(search.toLowerCase()) ||
           trainer.email.toLowerCase().includes(search.toLowerCase()) ||
           trainer.phone?.includes(search) ||
-          trainer.trainer?.specialization
+          trainer.trainerData?.specialization
             ?.toLowerCase()
             .includes(search.toLowerCase()),
       );
@@ -95,7 +95,8 @@ export default function TrainersPage() {
 
     if (filterSpecialization !== "all") {
       filtered = filtered.filter(
-        (trainer) => trainer.trainer?.specialization === filterSpecialization,
+        (trainer) =>
+          trainer.trainerData?.specialization === filterSpecialization,
       );
     }
 
@@ -107,13 +108,13 @@ export default function TrainersPage() {
     total: trainers.length,
     active: trainers.filter((t) => t.isActive !== false).length,
     totalClients: trainers.reduce(
-      (sum, t) => sum + (t.trainer?.currentClients || 0),
+      (sum, t) => sum + (t.trainerData?.currentClients || 0),
       0,
     ),
     avgRating:
       trainers.length > 0
         ? (
-            trainers.reduce((sum, t) => sum + (t.trainer?.rating || 0), 0) /
+            trainers.reduce((sum, t) => sum + (t.trainerData?.rating || 0), 0) /
             trainers.length
           ).toFixed(1)
         : "0",

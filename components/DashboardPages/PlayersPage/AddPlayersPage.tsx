@@ -53,10 +53,8 @@ import { Player } from "@/store/types/player.types";
 import MotionCard from "@/components/Cards/MotionCard";
 import { fetchTrainers, selectAllTrainers } from "@/store/slices/trainerSlice";
 import { Trainer } from "@/store/types/trainer.types";
-import { User as UserType } from "../../../store/types/user.types";
-type PlayerFormState = UserType & {
+type PlayerFormState = Player & {
   password: string;
-  // profileImage: File | string | null;
 };
 export default function AddPlayersPage() {
   const router = useRouter();
@@ -479,7 +477,7 @@ export default function AddPlayersPage() {
                     Membership type is required
                   </FieldError>
                 </Field>
-                <Field data-invalid className="space-y-2">
+                {/* <Field data-invalid className="space-y-2">
                   <FieldLabel className={`text-sm font-medium text-gray-700`}>
                     Assign Trainer <span className="text-red-600">*</span>
                   </FieldLabel>
@@ -508,7 +506,7 @@ export default function AddPlayersPage() {
                     <SelectContent>
                       {trainers.map((trainer) => (
                         <SelectItem
-                          key={trainer.trainerData?.id}
+                          key={trainer.id}
                           value={trainer.trainerData?.id?.toString() ?? ""}
                         >
                           <span className="flex items-center gap-2">
@@ -526,10 +524,10 @@ export default function AddPlayersPage() {
                   >
                     Please select a trainer
                   </FieldError>
-                </Field>
+                </Field> */}
                 <Field data-invalid className="space-y-2">
                   <FieldLabel className={`text-sm font-medium text-gray-700`}>
-                    Subscription type <span className="text-red-600">*</span>
+                    Assign Trainer <span className="text-red-600">*</span>
                   </FieldLabel>
                   <Select
                     value={form.playerData?.trainerId?.toString() ?? ""}
@@ -555,10 +553,7 @@ export default function AddPlayersPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {trainers.map((trainer) => (
-                        <SelectItem
-                          key={trainer.trainerData?.id}
-                          value={trainer.trainerData?.id?.toString() ?? ""}
-                        >
+                        <SelectItem key={trainer.id} value={String(trainer.id)}>
                           <span className="flex items-center gap-2">
                             <Briefcase className="w-4 h-4 text-purple-500" />
                             {trainer?.firstName} {trainer.lastName}-{" "}

@@ -29,6 +29,7 @@ function SelectTrigger({
   className,
   size = "default",
   children,
+
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default";
@@ -38,6 +39,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
+      suppressHydrationWarning
       className={cn(
         "focus-visible:border-ring h-8 bg-gray-50 focus-visible:ring-ring/50 flex w-fit items-center justify-between gap-2 rounded-md border  px-3 py-2 text-sm transition outline-none",
         validate ? "border-red-600" : "border-input",
@@ -106,11 +108,12 @@ function SelectItem({
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
+      suppressHydrationWarning
       className={cn(
         "focus:bg-accent h-9  relative flex w-full cursor-default items-center  rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none  [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className,
       )}
-      {...props}
+      {...(props || null)}
     >
       <span
         data-slot="select-item-indicator"

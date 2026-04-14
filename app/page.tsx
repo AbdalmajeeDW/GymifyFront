@@ -993,7 +993,7 @@ export default function AnalyticsDashboard() {
             transition={{ delay: 0.4 }}
             className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
           >
-            <div className="bg-linear-to-r from-primary-purple-500 to-secondry-blue px-6 py-4">
+            <div className="bg-linear-to-r from-primary-purple-500 to-blue-500 to-secondry-blue px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-white" />
