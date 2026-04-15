@@ -231,7 +231,7 @@ export default function AddTrainerPage() {
 
   return (
     <form noValidate onSubmit={handleSubmit}>
-      <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-100  mx-auto  space-y-8">
+      <div className="max-h-screen bg-linear-to-br from-gray-50 via-white to-gray-100  mx-auto  space-y-8">
         {/* Background Decoration */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-100 rounded-full filter blur-3xl opacity-20 -z-10"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20 -z-10"></div>

@@ -68,7 +68,7 @@ export default function Page() {
     : "bg-gradient-to-r from-purple-400 to-purple-500";
 
   return (
-    <div className="min-h-screen bg-linear-to-r from-gray-50 via-white to-gray-100">
+    <div className="max-h-screen bg-linear-to-r from-gray-50 via-white to-gray-100">
       <div className="mx-auto space-y-8">
         {/* ===== HEADER CARD ===== */}
         <motion.div

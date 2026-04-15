@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-
+import Loader from "../../components/Loader/page";
 import {
   Search,
   Calendar,
@@ -288,307 +288,318 @@ export default function SubscriptionsPage() {
     router.push("/subscriptions/add");
   };
 
-  if (loading === statusRequest.LOADING) {
-    return (
-      <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
-        <div className="relative">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500"></div>
-          <p className="mt-4 text-gray-500 font-medium">
-            Loading subscriptions...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-linear-to-br from-gray-50 via-white to-gray-100 min-h-screen p-6">
-      <div className=" mx-auto space-y-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-        >
-          {statsCards.map((card, i) => (
-            <StatsCard
-              key={i}
-              title={card.title}
-              value={card.value}
-              icon={card.icon}
-              bgColor={card.bgColor}
-              gradient={card.gradient}
-              description={card.description}
-            />
-          ))}
-        </motion.div>
-
-        <div>
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-              <Package className="w-5 h-5 text-purple-500" />
-              Subscription Packages
-              <span className="text-sm text-gray-500 font-normal">
-                (Select a package to view subscribers)
-              </span>
-            </h3>
-            <button
-              onClick={() => setSelectedPackage(null)}
-              className={`px-3 py-1 rounded-lg text-sm transition-all ${
-                selectedPackage === null
-                  ? "bg-purple-500 text-white"
-                  : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-              }`}
-            >
-              All
-            </button>
+    <div className="bg-linear-to-br from-gray-50 via-white to-gray-100 ">
+      {loading === statusRequest.LOADING ? (
+        <div className="fixed inset-0 bg-white/80 backdrop-blur-md z-50 flex items-center justify-center min-h-screen">
+          <div className="relative">
+            <div className="absolute inset-0 bg-white/50 rounded-2xl blur-xl"></div>
+            <div className="relative bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 flex flex-col items-center gap-4">
+              <Loader className="text-purple-700 w-12 h-12" />
+              <p className="text-gray-600 font-medium animate-pulse">
+                Loading...
+              </p>
+            </div>
           </div>
+        </div>
+      ) : (
+        <div className=" mx-auto space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {statsCards.map((card, i) => (
+              <StatsCard
+                key={i}
+                title={card.title}
+                value={card.value}
+                icon={card.icon}
+                bgColor={card.bgColor}
+                gradient={card.gradient}
+                description={card.description}
+              />
+            ))}
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {packages.map((pkg) => (
-              <motion.div
-                key={pkg.id}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() =>
-                  setSelectedPackage(selectedPackage === pkg.id ? null : pkg.id)
-                }
-                className={`cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
-                  selectedPackage === pkg.id
-                    ? "ring-2 ring-purple-500 shadow-lg scale-[1.02]"
-                    : "hover:shadow-md"
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                <Package className="w-5 h-5 text-purple-500" />
+                Subscription Packages
+                <span className="text-sm text-gray-500 font-normal">
+                  (Select a package to view subscribers)
+                </span>
+              </h3>
+              <button
+                onClick={() => setSelectedPackage(null)}
+                className={`px-3 py-1 rounded-lg text-sm transition-all ${
+                  selectedPackage === null
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                 }`}
               >
-                <div className={`bg-linear-to-r ${pkg.color} p-4 text-white`}>
-                  <div className="flex justify-between items-start">
-                    <div className="p-2 bg-white/20 rounded-lg">{pkg.icon}</div>
-                    <span className="text-2xl font-bold">{pkg.price} SAR</span>
-                  </div>
-                  <h4 className="text-xl font-bold mt-3">{pkg.name}</h4>
-                  <p className="text-white/80 text-sm">
-                    {pkg.durationDays} days
-                  </p>
-                </div>
-                <div className="bg-white p-3 flex justify-between items-center">
-                  <span className="text-gray-600">
-                    <Users className="w-4 h-4 inline ml-1" />
-                    {pkg.memberCount} subscribers
-                  </span>
-                  <span className="text-purple-500 text-sm font-medium">
-                    {selectedPackage === pkg.id ? "✓ Selected" : "View members"}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+                All
+              </button>
+            </div>
 
-        {/* Subscriptions Table */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="bg-linear-to-r from-purple-500 to-blue-500 px-6 py-4">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
-                Subscriptions List
-                <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-sm">
-                  {filteredSubscriptions.length} subscriptions
-                </span>
-              </h2>
-
-              <div className="flex gap-3 w-full md:w-auto">
-                <div className="relative flex-1 md:w-64">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search by player name or package..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
-                  />
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                    className="px-4 py-2 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 appearance-none cursor-pointer pr-10"
-                  >
-                    <option value="all">All Statuses</option>
-                    <option value="active">Active</option>
-                    <option value="expired">Expired</option>
-                    <option value="suspended">Suspended</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                  <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                </div>
-
-                <button
-                  onClick={handleAddSubscription}
-                  className="px-4 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center gap-2"
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {packages.map((pkg) => (
+                <motion.div
+                  key={pkg.id}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() =>
+                    setSelectedPackage(
+                      selectedPackage === pkg.id ? null : pkg.id,
+                    )
+                  }
+                  className={`cursor-pointer rounded-xl overflow-hidden transition-all duration-300 ${
+                    selectedPackage === pkg.id
+                      ? "ring-2 ring-purple-500 shadow-lg scale-[1.02]"
+                      : "hover:shadow-md"
+                  }`}
                 >
-                  <UserPlus className="w-4 h-4" />
-                  New Subscription
-                </button>
-              </div>
+                  <div className={`bg-linear-to-r ${pkg.color} p-4 text-white`}>
+                    <div className="flex justify-between items-start">
+                      <div className="p-2 bg-white/20 rounded-lg">
+                        {pkg.icon}
+                      </div>
+                      <span className="text-2xl font-bold">
+                        {pkg.price} SAR
+                      </span>
+                    </div>
+                    <h4 className="text-xl font-bold mt-3">{pkg.name}</h4>
+                    <p className="text-white/80 text-sm">
+                      {pkg.durationDays} days
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 flex justify-between items-center">
+                    <span className="text-gray-600">
+                      <Users className="w-4 h-4 inline ml-1" />
+                      {pkg.memberCount} subscribers
+                    </span>
+                    <span className="text-purple-500 text-sm font-medium">
+                      {selectedPackage === pkg.id
+                        ? "✓ Selected"
+                        : "View members"}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          <div className="p-4">
-            {filteredSubscriptions.length === 0 ? (
-              <div className="text-center py-12">
-                <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 text-lg">No subscriptions found</p>
-                <p className="text-gray-400 text-sm mt-2">
-                  {search || filterStatus !== "all" || selectedPackage
-                    ? "Try adjusting your search criteria"
-                    : "Add your first subscription to get started"}
-                </p>
+          {/* Subscriptions Table */}
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <div className="bg-linear-to-r from-purple-500 to-blue-500 px-6 py-4">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Subscriptions List
+                  <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-sm">
+                    {filteredSubscriptions.length} subscriptions
+                  </span>
+                </h2>
+
+                <div className="flex gap-3 w-full md:w-auto">
+                  <div className="relative flex-1 md:w-64">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search by player name or package..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <select
+                      value={filterStatus}
+                      onChange={(e) => setFilterStatus(e.target.value)}
+                      className="px-4 py-2 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 appearance-none cursor-pointer pr-10"
+                    >
+                      <option value="all">All Statuses</option>
+                      <option value="active">Active</option>
+                      <option value="expired">Expired</option>
+                      <option value="suspended">Suspended</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                    <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                  </div>
+
+                  <button
+                    onClick={handleAddSubscription}
+                    className="px-4 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center gap-2"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    New Subscription
+                  </button>
+                </div>
               </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Player
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Package
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Start Date
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        End Date
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Remaining
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Amount
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Status
-                      </th>
-                      <th className="text-right py-3 px-4 text-gray-600 font-semibold">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredSubscriptions.map((sub) => (
-                      <tr
-                        key={sub.id}
-                        className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="py-3 px-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                              <span className="text-purple-600 font-medium text-sm">
-                                {sub.playerName.charAt(0)}
+            </div>
+
+            <div className="p-4">
+              {filteredSubscriptions.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500 text-lg">
+                    No subscriptions found
+                  </p>
+                  <p className="text-gray-400 text-sm mt-2">
+                    {search || filterStatus !== "all" || selectedPackage
+                      ? "Try adjusting your search criteria"
+                      : "Add your first subscription to get started"}
+                  </p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Player
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Package
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Start Date
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          End Date
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Remaining
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Amount
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Status
+                        </th>
+                        <th className="text-right py-3 px-4 text-gray-600 font-semibold">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredSubscriptions.map((sub) => (
+                        <tr
+                          key={sub.id}
+                          className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                        >
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <span className="text-purple-600 font-medium text-sm">
+                                  {sub.playerName.charAt(0)}
+                                </span>
+                              </div>
+                              <span className="font-medium text-gray-800">
+                                {sub.playerName}
                               </span>
                             </div>
-                            <span className="font-medium text-gray-800">
-                              {sub.playerName}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-sm">
+                              {sub.packageName}
                             </span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-sm">
-                            {sub.packageName}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-gray-600">
-                          {sub.startDate}
-                        </td>
-                        <td className="py-3 px-4 text-gray-600">
-                          {sub.endDate}
-                        </td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`font-medium ${
-                              sub.daysRemaining <= 0
-                                ? "text-red-600"
-                                : sub.daysRemaining <= 7
-                                  ? "text-orange-600"
-                                  : "text-green-600"
-                            }`}
-                          >
-                            {sub.daysRemaining <= 0
-                              ? "Expired"
-                              : `${sub.daysRemaining} days`}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 font-medium text-gray-800">
-                          {sub.amountPaid} SAR
-                        </td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                              sub.status === "active"
-                                ? "bg-green-100 text-green-700"
-                                : sub.status === "expired"
-                                  ? "bg-red-100 text-red-700"
-                                  : sub.status === "suspended"
-                                    ? "bg-yellow-100 text-yellow-700"
-                                    : "bg-gray-100 text-gray-700"
-                            }`}
-                          >
-                            {sub.status === "active" && (
-                              <CheckCircle className="w-3 h-3" />
-                            )}
-                            {sub.status === "expired" && (
-                              <AlertCircle className="w-3 h-3" />
-                            )}
-                            {sub.status === "suspended" && (
-                              <PauseCircle className="w-3 h-3" />
-                            )}
-                            {sub.status === "active"
-                              ? "Active"
-                              : sub.status === "expired"
-                                ? "Expired"
-                                : sub.status === "suspended"
-                                  ? "Suspended"
-                                  : "Cancelled"}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleViewDetails(sub.id)}
-                              className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                              title="View details"
+                          </td>
+                          <td className="py-3 px-4 text-gray-600">
+                            {sub.startDate}
+                          </td>
+                          <td className="py-3 px-4 text-gray-600">
+                            {sub.endDate}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`font-medium ${
+                                sub.daysRemaining <= 0
+                                  ? "text-red-600"
+                                  : sub.daysRemaining <= 7
+                                    ? "text-orange-600"
+                                    : "text-green-600"
+                              }`}
                             >
-                              <Search className="w-4 h-4" />
-                            </button>
-                            {sub.status === "expired" && (
+                              {sub.daysRemaining <= 0
+                                ? "Expired"
+                                : `${sub.daysRemaining} days`}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 font-medium text-gray-800">
+                            {sub.amountPaid} SAR
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                                sub.status === "active"
+                                  ? "bg-green-100 text-green-700"
+                                  : sub.status === "expired"
+                                    ? "bg-red-100 text-red-700"
+                                    : sub.status === "suspended"
+                                      ? "bg-yellow-100 text-yellow-700"
+                                      : "bg-gray-100 text-gray-700"
+                              }`}
+                            >
+                              {sub.status === "active" && (
+                                <CheckCircle className="w-3 h-3" />
+                              )}
+                              {sub.status === "expired" && (
+                                <AlertCircle className="w-3 h-3" />
+                              )}
+                              {sub.status === "suspended" && (
+                                <PauseCircle className="w-3 h-3" />
+                              )}
+                              {sub.status === "active"
+                                ? "Active"
+                                : sub.status === "expired"
+                                  ? "Expired"
+                                  : sub.status === "suspended"
+                                    ? "Suspended"
+                                    : "Cancelled"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-2">
                               <button
-                                onClick={() => handleRenew(sub.id)}
-                                className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                title="Renew"
+                                onClick={() => handleViewDetails(sub.id)}
+                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                title="View details"
                               >
-                                <RefreshCw className="w-4 h-4" />
+                                <Search className="w-4 h-4" />
                               </button>
-                            )}
-                            {sub.status === "active" && (
-                              <button
-                                onClick={() => handleCancel(sub.id)}
-                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                title="Cancel"
-                              >
-                                <XCircle className="w-4 h-4" />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                              {sub.status === "expired" && (
+                                <button
+                                  onClick={() => handleRenew(sub.id)}
+                                  className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                  title="Renew"
+                                >
+                                  <RefreshCw className="w-4 h-4" />
+                                </button>
+                              )}
+                              {sub.status === "active" && (
+                                <button
+                                  onClick={() => handleCancel(sub.id)}
+                                  className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                  title="Cancel"
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

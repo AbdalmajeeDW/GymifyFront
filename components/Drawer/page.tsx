@@ -85,7 +85,6 @@ export default function Page() {
               background: rgba(255, 255, 255, 0.5);
             }
           `}</style>
-
           <button
             onClick={toggleSidebar}
             className="absolute -right-3 top-20 z-50 p-1.5 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
@@ -96,7 +95,6 @@ export default function Page() {
               <ChevronLeft className="w-4 h-4 text-gray-600 group-hover:text-purple-500 transition-colors" />
             )}
           </button>
-
           {/* Logo Section */}
           <div
             className={`px-4 pt-8 pb-6 shrink-0 ${isCollapsed ? "px-2" : "px-4"}`}
@@ -125,9 +123,7 @@ export default function Page() {
               </AnimatePresence>
             </div>
           </div>
-
-          <div className="h-px bg-linear-to-r from-transparent via-gray-600 to-transparent mx-4 shrink-0"></div>
-
+          <div className="h-0.5 bg-linear-to-r from-transparent via-purple-800 to-transparent mx-4 "></div>{" "}
           {/* User Profile Section */}
           <div
             className={`px-4 py-6 shrink-0 ${isCollapsed ? "px-2" : "px-4"}`}
@@ -180,9 +176,7 @@ export default function Page() {
               </div>
             </motion.div>
           </div>
-
-          <div className="h-px bg-linear-to-r from-transparent via-gray-600 to-transparent mx-4 shrink-0"></div>
-
+          <div className="h-0.5 bg-linear-to-r from-transparent via-purple-800 to-transparent mx-4 "></div>{" "}
           {/* Navigation Menu */}
           <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-3 min-h-0">
             <ul className="space-y-1">
@@ -254,7 +248,6 @@ export default function Page() {
               })}
             </ul>
           </nav>
-
           {/* Logout Button */}
           <div className="p-3 mt-auto border-t border-gray-700/50 shrink-0">
             <Link

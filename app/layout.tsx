@@ -35,23 +35,22 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className="antialiased bg-linear-to-br from-gray-50 via-white to-gray-100">
+      <body className="antialiased ">
         <AuthGuard>
           {isAuthPage ? (
-            <main className="min-h-screen">{children}</main>
+            <main className="max-h-screen">{children}</main>
           ) : (
-            <div className="relative min-h-screen flex">
+            <div className="relative max-h-screen flex">
               <Drawer />
 
-              <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+              <div className="flex-1 flex flex-col max-h-screen overflow-x-hidden">
                 <Header />
 
                 <Suspense
                   fallback={
-                    <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+                    <div className="flex items-center justify-center max-h-[calc(100vh-4rem)]">
                       <div className="relative">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-500"></div>
-                        <p className="mt-4 text-gray-500 text-sm">Loading...</p>
+                        <Loader />
                       </div>
                     </div>
                   }
