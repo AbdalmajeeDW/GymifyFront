@@ -16,12 +16,11 @@ export interface TrainerProfile {
 }
 
 export type Trainer = User & {
-  // type: "trainer";
-
   trainerData: TrainerProfile;
+  trainer: TrainerProfile;
 };
 
-export function isPlayer(user: AppUser): user is Trainer {
+export function isTrainer(user: AppUser): user is Trainer {
   return "trainerData" in user;
 }
 

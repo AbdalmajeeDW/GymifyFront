@@ -477,54 +477,7 @@ export default function AddPlayersPage() {
                     Membership type is required
                   </FieldError>
                 </Field>
-                {/* <Field data-invalid className="space-y-2">
-                  <FieldLabel className={`text-sm font-medium text-gray-700`}>
-                    Assign Trainer <span className="text-red-600">*</span>
-                  </FieldLabel>
-                  <Select
-                    value={form.playerData?.trainerId?.toString() ?? ""}
-                    onValueChange={(value) => {
-                      setForm((prev) => ({
-                        ...prev,
-                        playerData: {
-                          ...prev.playerData,
-                          trainerId: value ? Number(value) : null,
-                        },
-                      }));
-                      setForceValidate((prev) => ({
-                        ...prev,
-                        trainerId: false,
-                      }));
-                    }}
-                  >
-                    <SelectTrigger
-                      validate={false}
-                      className="w-full border-gray-200 focus:border-primary-purple-500 focus:ring-primary-purple-500"
-                    >
-                      <SelectValue placeholder="Select a trainer (optional)" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {trainers.map((trainer) => (
-                        <SelectItem
-                          key={trainer.id}
-                          value={trainer.trainerData?.id?.toString() ?? ""}
-                        >
-                          <span className="flex items-center gap-2">
-                            <Briefcase className="w-4 h-4 text-purple-500" />
-                            {trainer?.firstName} {trainer.lastName}-{" "}
-                            {trainer.trainerData?.specialization || "Trainer"}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FieldError
-                    showError={false}
-                    className="text-red-500 text-sm"
-                  >
-                    Please select a trainer
-                  </FieldError>
-                </Field> */}
+
                 <Field data-invalid className="space-y-2">
                   <FieldLabel className={`text-sm font-medium text-gray-700`}>
                     Assign Trainer <span className="text-red-600">*</span>
@@ -553,7 +506,10 @@ export default function AddPlayersPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {trainers.map((trainer) => (
-                        <SelectItem key={trainer.id} value={String(trainer.id)}>
+                        <SelectItem
+                          key={trainer.trainer.id}
+                          value={String(trainer.trainer.id)}
+                        >
                           <span className="flex items-center gap-2">
                             <Briefcase className="w-4 h-4 text-purple-500" />
                             {trainer?.firstName} {trainer.lastName}-{" "}

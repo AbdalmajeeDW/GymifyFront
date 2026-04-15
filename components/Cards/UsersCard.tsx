@@ -208,9 +208,9 @@ export default function SharedCard({
                       {isPlayer ? "Age:" : "Specialization:"}
                     </span>
                     <span className="font-semibold text-gray-700 truncate ml-2">
-                      {/* {isPlayer
+                      {isPlayer
                         ? `${user.playerData?.year || 0} years`
-                        : user.trainer?.specialization || "N/A"} */}
+                        : user.trainer?.specialization || "N/A"}
                     </span>
                   </div>
 
@@ -220,9 +220,9 @@ export default function SharedCard({
                       {isPlayer ? "Height/Weight:" : "Experience:"}
                     </span>
                     <span className="font-semibold text-gray-700">
-                      {/* {isPlayer
+                      {isPlayer
                         ? `${user.playerData?.height || 0}cm / ${user.playerData?.weight || 0}kg`
-                        : `${user.trainer?.experienceYears || 0} years`} */}
+                        : `${user.trainerData?.experienceYears || 0} years`}
                     </span>
                   </div>
 

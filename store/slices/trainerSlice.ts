@@ -172,8 +172,10 @@ const trainerSlice = createSlice({
       })
       .addCase(deleteTrainer.fulfilled, (state, action) => {
         state.trainers = state.trainers.filter(
-          (trainer) => trainer.trainerData.id !== action.payload,
+          (trainer) => trainer.id !== action.meta.arg,
         );
+        console.log(action.meta.arg, "argggggggggggggggggg");
+
         state.status = statusRequest.SUCCEEDED;
       })
       .addCase(deleteTrainer.rejected, (state) => {

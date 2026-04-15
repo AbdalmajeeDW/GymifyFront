@@ -31,7 +31,7 @@ import { statusRequest } from "@/common/enums";
 import { Trainer } from "@/store/types/trainer.types";
 import Card from "../../Cards/UsersCard";
 import StatsCard from "@/components/Cards/StatsCard";
-import { deleteUser } from "@/store/slices/playerSlice";
+import { deleteTrainer } from "@/store/slices/trainerSlice";
 
 export default function TrainersPage() {
   const dispatch = useAppDispatch();
@@ -151,9 +151,7 @@ export default function TrainersPage() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this trainer?")) {
-      dispatch(deleteUser(id));
-    }
+    dispatch(deleteTrainer(id));
   };
 
   // if (loading === statusRequest.LOADING) {

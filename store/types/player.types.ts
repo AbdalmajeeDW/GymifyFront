@@ -20,7 +20,7 @@ export type Player = User & {
 };
 
 export function isPlayer(user: AppUser): user is Player {
-  return "playerData" in user;
+  return "playerData" in user && user.playerData != null;
 }
 
 export interface playerState {

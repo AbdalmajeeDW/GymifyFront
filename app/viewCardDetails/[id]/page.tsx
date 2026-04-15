@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { isPlayer } from "@/store/types/player.types";
+import { isTrainer } from "@/store/types/trainer.types";
 
 export default function Page() {
   const params = useParams();
@@ -31,7 +32,7 @@ export default function Page() {
   const user = useAppSelector(selectedUser);
 
   const player = user && isPlayer(user) ? user : null;
-
+  const trainer = user && isTrainer(user) ? user : null;
   useEffect(() => {
     if (id) dispatch(fetchUser(id));
   }, [dispatch, id]);
@@ -139,7 +140,9 @@ export default function Page() {
             {
               icon: Crown,
               label: player ? "Membership" : "Current clients",
-              value: player?.playerData?.membershipType,
+              value: player
+                ? player?.playerData?.membershipType
+                : trainer?.trainerData.currentClients,
               color: "from-yellow-400 to-amber-500",
             },
             {
@@ -152,8 +155,10 @@ export default function Page() {
             {
               icon: player?.playerData ? Ruler : Sparkles,
               label: player?.playerData ? "Height" : "Experience years",
-              value: player?.playerData?.height,
-              suffix: " cm",
+              value: player
+                ? player?.playerData?.height
+                : trainer?.trainerData.experienceYears,
+              suffix: player && " cm",
               color: "from-green-400 to-emerald-500",
             },
             {
