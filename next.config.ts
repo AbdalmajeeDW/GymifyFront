@@ -26,7 +26,7 @@ const nextConfig = {
   },
 
   // تعديل هذا الجزء ليكون متوافقاً مع Vercel
-  serverExternalPackages: ["face-api.js"],
+  // serverExternalPackages: ["face-api.js"],
 
   // إضافة هذه الإعدادات لمنع أخطاء البناء
   typescript: {
