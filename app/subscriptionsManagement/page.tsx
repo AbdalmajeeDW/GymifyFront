@@ -297,7 +297,7 @@ export default function SubscriptionsPage() {
             <div className="relative bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 flex flex-col items-center gap-4">
               <Loader className="text-purple-700 w-12 h-12" />
               <p className="text-gray-600 font-medium animate-pulse">
-                Loading...
+                Please wait while the data is displayed...
               </p>
             </div>
           </div>
